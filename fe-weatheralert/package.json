@@ -9,9 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@azure/identity": "^4.0.1",
+    "@azure/keyvault-secrets": "^4.7.0",
+    "dotenv": "^16.4.1",
     "vue": "^3.3.11"
   },
   "devDependencies": {
+    "@types/node": "^20.11.10",
     "@vitejs/plugin-vue": "^4.5.2",
     "typescript": "^5.2.2",
     "vite": "^5.0.8",
