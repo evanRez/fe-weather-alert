@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
-
-
-// navigator.geolocation.getCurrentPosition((position) => {
-//   doSomething(position.coords.latitude, position.coords.longitude);
-// });
+import { ref, onMounted, watch } from 'vue'
 
 
 const location = ref({
@@ -12,18 +7,35 @@ const location = ref({
     long: 0
 })
 
+const VITE_OPEN_WEATHER_API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
+
 onMounted(() => {
     getCurrentPosition();
     console.log('location data', location);
+    console.log('api key', VITE_OPEN_WEATHER_API_KEY);
+    
 })
 
 function getCurrentPosition() {
-    return navigator.geolocation.getCurrentPosition((position) => {
+    navigator.geolocation.getCurrentPosition((position) => {
         let { latitude, longitude } = position.coords;
-        location.value.lat = latitude;
-        location.value.long = longitude;
+        location.value.lat = Number(latitude.toFixed(2));
+        location.value.long = Number(longitude.toFixed(2));
     });
 }
+
+async function getGeoData() {
+  const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.value.lat}&lon=${location.value.long}&appid=${VITE_OPEN_WEATHER_API_KEY}`);
+  const geoData = await response.json();
+  console.log('geodate', geoData);
+}
+
+watch(
+  location, 
+  () => {getGeoData();}, 
+  { deep: true })
+
+
 </script>
 
 <template>
@@ -40,7 +52,5 @@ function getCurrentPosition() {
 </template>
 
 <style scoped>
-.read-the-docs {
-  color: #888;
-}
+
 </style>
