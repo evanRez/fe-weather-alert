@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import AutoLocation from './components/AutoLocation.vue';
+import Home from './pages/Home.vue';
 </script>
 
 <template>
   
-    <AutoLocation />
+  <Home />
   
 </template>
 
