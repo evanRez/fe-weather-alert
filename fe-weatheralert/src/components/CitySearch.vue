@@ -1,38 +1,37 @@
 <script setup lang="ts">
 
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { debounce } from "../utility";
-import {iNinjaCity} from "../interfaces"
+import { weatherCityClass} from "../interfaces"
 
-const emit = defineEmits(['customChange'])
-
-const selected = ref<iNinjaCity>()
-const baseUrl = 'https://api.api-ninjas.com/v1/city?country=US&limit=5&name=';
-let searchTerm = ref("");
-let cities = ref(Array<ninjaCity>());
-const VITE_API_NINJA_CITY_KEY = import.meta.env.VITE_API_NINJA_CITY_KEY;
 const VITE_OPEN_WEATHER_API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
 
-//http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid={API key}
+const emit = defineEmits(['customChange'])
+const baseUrl = `http://api.openweathermap.org/geo/1.0/direct?limit=5&appid=${VITE_OPEN_WEATHER_API_KEY}&q=`
+let searchTerm = ref("");
 
-//https://open.gsa.gov/api/location-public-api/
+let cities = ref(Array<weatherCityClass>());
+
+const selected = ref<weatherCityClass>();
+
 
 
 const searchCities = async () => {
-    const response = await fetch(`${baseUrl}${searchTerm.value}`, 
-    {
-        headers: {
-            'X-Api-Key': VITE_API_NINJA_CITY_KEY
-        }
-    });
-    const data: Array<ninjaCity> = await response.json();
+    console.log('starting to search cities');
+    console.log('selected', selected);
+    console.log('selected full', selected.value?.full_name)
+    const response = await fetch(`${baseUrl}${searchTerm.value}`);
+    const data: Array<weatherCityClass> = await response.json();
     cities.value.length = 0;
-   
-    data.forEach((el: ninjaCity) => cities.value.push(el));
+    data.forEach((el: weatherCityClass) => cities.value.push(el));
     
     console.log('data for real', data)
 }
 
+
+const selectedFullName = computed(() => {
+    return `${selected.value?.name}, ${selected.value?.state}, ${selected.value?.country}`
+})
 
 watch(
     searchTerm,
@@ -47,9 +46,17 @@ const deboucedSearch = debounce( searchCities, 800);
 
 function fetchNewCity() {
     console.log('the selected city is', selected.value);
-    console.log('new coords', selected.value?.latitude, selected.value?.longitude);
-    emit("customChange",selected.value?.latitude, selected.value?.longitude);
+    console.log('new coords', selected.value?.lat, selected.value?.lon);
+    emit("customChange",selected.value?.lat, selected.value?.lon);
+
+    console.log('city info ', cities.value)
 }
+
+
+function updateSearchTerm() {
+    searchTerm.value = selectedFullName.value;
+}
+
     
 </script>
 
@@ -59,10 +66,10 @@ function fetchNewCity() {
             <h2>Change City Location Details</h2>
             <label for="city" class="label" aria="city">Search for your City</label>
             <div>
-                <input v-model="searchTerm" id="city" list="cityOptions" placeholder="Search for a city..."/>
-                <datalist id="cityOptions">
-                    <option v-for="item in cities" :value="item.name">{{ item?.name }}</option>
-                </datalist>
+                <input v-model="searchTerm" id="city" type="text" placeholder="Search for a city..."/>
+                <select v-model="selected" @change="updateSearchTerm">
+                    <option v-for="item in cities" :value="item">{{ item.name + ", " + item.state + ", " + item.country }}</option>
+                </select>
             </div>
             
             <div class="flex justify-center mb-5">
