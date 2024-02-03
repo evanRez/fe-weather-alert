@@ -9,8 +9,8 @@ const props = defineProps<{
 </script>
 
 <template>
-  <div class="card">
-    <div class="container">
+  <div class="container">
+    <div class="card mid-blue">
       <h2 class="mb-5">{{ props.weatherLocation.formattedAddress }}</h2>
       <div>
         {{ props.weatherLocation.weatherDesc }}
@@ -32,4 +32,8 @@ const props = defineProps<{
 
 </template>
 
+
+<style scoped>
+
+</style>
 

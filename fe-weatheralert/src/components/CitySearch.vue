@@ -11,6 +11,9 @@ const baseUrl = 'https://api.api-ninjas.com/v1/city?country=US&limit=5&name=';
 let searchTerm = ref("");
 let cities = ref(Array<ninjaCity>());
 const VITE_API_NINJA_CITY_KEY = import.meta.env.VITE_API_NINJA_CITY_KEY;
+const VITE_OPEN_WEATHER_API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
+
+//http://api.openweathermap.org/geo/1.0/direct?q=London&limit=5&appid={API key}
 
 //https://open.gsa.gov/api/location-public-api/
 
@@ -51,12 +54,32 @@ function fetchNewCity() {
 </script>
 
 <template>
-    <div class="text-start">
-        <label for="city" aria="city">Search for your City</label>
-        <input v-model="searchTerm" id="city" type="text" placeholder="Search for a city..."/>
-        <select v-model="selected">
-            <option v-for="item in cities" :value="item">{{ item?.name }}</option>
-        </select>
-        <button @click="fetchNewCity">Make this my city</button>
+    <div class="container text-start">
+        <div class="card">
+            <h2>Change City Location Details</h2>
+            <label for="city" class="label" aria="city">Search for your City</label>
+            <div>
+                <input v-model="searchTerm" id="city" list="cityOptions" placeholder="Search for a city..."/>
+                <datalist id="cityOptions">
+                    <option v-for="item in cities" :value="item.name">{{ item?.name }}</option>
+                </datalist>
+            </div>
+            
+            <div class="flex justify-center mb-5">
+                <button class="primary" @click="fetchNewCity">Check City</button>
+            </div>
+        </div>
+        
     </div>
 </template>
+
+<style scoped>
+    #city {
+        line-height: 2rem;
+        width: 100%;
+        margin-bottom: 2rem;
+        margin-top: 1rem;
+    }
+
+
+</style>

@@ -86,12 +86,12 @@ watch(
 
 <template>
     <div class="flex">
-        <div>
+        <div class="container">
             <AutoLocation :weather-location="location" :current-time="currentTime"/>
         </div>
-        <div>
-            <CitySearch/>
-            <EmailRegister :weather-location="location" @custom-change="getCurrentPosition"/>
+        <div class="container">
+            <CitySearch @custom-change="getCurrentPosition"/>
+            <EmailRegister :weather-location="location" />
         </div>
     </div>
 </template>

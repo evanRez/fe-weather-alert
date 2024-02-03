@@ -20,4 +20,34 @@ interface iNinjaCity {
     'population': number
 }
 
-export type {weatherLocation, iNinjaCity}
+interface usCity {
+    "city": string,
+    "city_ascii": string,
+    "state_id": string,
+    "state_name": string,
+    "county_fips": number,
+    "county_name": string,
+    "lat": number,
+    "lng": number,
+    "population": number,
+    "density": number,
+    "source": string,
+    "military": boolean,
+    "incorporated": boolean,
+    "timezone": string,
+    "ranking": number,
+    "zips": string,
+    "id": number
+}
+
+
+interface weatherCity {
+    "name":string,
+    "local_names": any,
+    "lat": number,
+    "lon": number,
+    "country": string,
+    "state": string
+ }
+
+export type {weatherLocation, iNinjaCity, weatherCity}
