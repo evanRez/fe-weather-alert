@@ -17,15 +17,10 @@ const selected = ref<weatherCityClass>();
 
 
 const searchCities = async () => {
-    console.log('starting to search cities');
-    console.log('selected', selected);
-    console.log('selected full', selected.value?.full_name)
     const response = await fetch(`${baseUrl}${searchTerm.value}`);
     const data: Array<weatherCityClass> = await response.json();
     cities.value.length = 0;
     data.forEach((el: weatherCityClass) => cities.value.push(el));
-    
-    console.log('data for real', data)
 }
 
 
@@ -45,11 +40,7 @@ watch(
 const deboucedSearch = debounce( searchCities, 800);
 
 function fetchNewCity() {
-    console.log('the selected city is', selected.value);
-    console.log('new coords', selected.value?.lat, selected.value?.lon);
     emit("customChange",selected.value?.lat, selected.value?.lon);
-
-    console.log('city info ', cities.value)
 }
 
 

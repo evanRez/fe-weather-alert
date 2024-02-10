@@ -61,4 +61,4 @@ class weatherCityClass implements weatherCity {
 }
 
 
-export type {weatherLocation, iNinjaCity, weatherCity, weatherCityClass}
+export type {weatherLocation, iNinjaCity, usCity, weatherCity, weatherCityClass}

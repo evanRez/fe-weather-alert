@@ -2,6 +2,7 @@
 import AutoLocation from "../components/AutoLocation.vue"
 import CitySearch from "../components/CitySearch.vue"
 import EmailRegister from "../components/EmailRegister.vue"
+import Dialog from "../components/Dialog.vue"
 import { ref, onMounted, watch } from "vue"
 import {weatherLocation } from "../interfaces"
 
@@ -16,7 +17,9 @@ const location = ref<weatherLocation>({
     'low':  0,
     'icon': ""
 });
-const currentTime = ref("")
+const currentTime = ref("");
+
+const showModal = ref<boolean>(false);
 
 const VITE_OPEN_WEATHER_API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
 const VITE_GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
@@ -32,11 +35,9 @@ onMounted(() => {
 
 function getCurrentPosition(lat?: number, long?: number) {
     if (lat != null && long != null) {
-        console.log('THIS WAS HIT')
         location.value.lat = lat;
         location.value.long = long;
     } else {
-        console.log('only on initial render')
         navigator.geolocation.getCurrentPosition((position) => {
             let { latitude, longitude } = position.coords;
             location.value.lat = Number(latitude.toFixed(2));
@@ -51,8 +52,6 @@ async function getGeoData() {
   const geoData = await response.json();
   const googleResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.value.lat},${location.value.long}&key=${VITE_GOOGLE_MAPS_API_KEY}`)
   const googleData = await googleResponse.json();
-  console.log('google data', googleData);
-  console.log('geodate', geoData);
   location.value.formattedAddress = googleData.results[6].formatted_address;
   location.value.weatherDesc = formatDescription(geoData.weather[0].description);
   location.value.temp = geoData.main.temp.toFixed(0);
@@ -76,6 +75,10 @@ function formatDescription(str: string) {
   return formatted;
 }
 
+function flipModal() {
+  showModal.value = !showModal.value;
+}
+
 watch(
   location, 
   () => {getGeoData();}, 
@@ -91,7 +94,8 @@ watch(
         </div>
         <div class="container">
             <CitySearch @custom-change="getCurrentPosition"/>
-            <EmailRegister :weather-location="location" />
+            <EmailRegister :weather-location="location" @flip-modal="flipModal"/>
         </div>
+        <Dialog v-show="showModal" :show-modal="showModal" @flip-modal="flipModal" />
     </div>
 </template>
