@@ -4,7 +4,7 @@ import {weatherLocation} from '../interfaces';
 const props = defineProps<{
   weatherLocation: weatherLocation,
   currentTime: string}
-  >()
+  >();
 
 </script>
 

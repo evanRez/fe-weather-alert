@@ -11,35 +11,6 @@
 }
 
 
-interface iNinjaCity {
-    'country': string,
-    'is_capital': boolean,
-    'latitude': number,
-    'longitude': number,
-    'name': string,
-    'population': number
-}
-
-interface usCity {
-    "city": string,
-    "city_ascii": string,
-    "state_id": string,
-    "state_name": string,
-    "county_fips": number,
-    "county_name": string,
-    "lat": number,
-    "lng": number,
-    "population": number,
-    "density": number,
-    "source": string,
-    "military": boolean,
-    "incorporated": boolean,
-    "timezone": string,
-    "ranking": number,
-    "zips": string,
-    "id": number
-}
-
 
 interface weatherCity {
     name: string,
@@ -61,4 +32,4 @@ class weatherCityClass implements weatherCity {
 }
 
 
-export type {weatherLocation, iNinjaCity, usCity, weatherCity, weatherCityClass}
+export type {weatherLocation, weatherCity, weatherCityClass}

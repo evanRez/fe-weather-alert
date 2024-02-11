@@ -4,7 +4,7 @@ import CitySearch from "../components/CitySearch.vue"
 import EmailRegister from "../components/EmailRegister.vue"
 import Dialog from "../components/Dialog.vue"
 import { ref, onMounted, watch } from "vue"
-import {weatherLocation } from "../interfaces"
+import { weatherLocation } from "../interfaces"
 
 
 const location = ref<weatherLocation>({
@@ -22,7 +22,6 @@ const currentTime = ref("");
 const showModal = ref<boolean>(false);
 
 const VITE_OPEN_WEATHER_API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
-const VITE_GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 onMounted(() => {
     getCurrentPosition();
@@ -50,15 +49,17 @@ function getCurrentPosition(lat?: number, long?: number) {
 async function getGeoData() {
   const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${location.value.lat}&lon=${location.value.long}&units=imperial&appid=${VITE_OPEN_WEATHER_API_KEY}`);
   const geoData = await response.json();
-  const googleResponse = await fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${location.value.lat},${location.value.long}&key=${VITE_GOOGLE_MAPS_API_KEY}`)
-  const googleData = await googleResponse.json();
-  location.value.formattedAddress = googleData.results[6].formatted_address;
+
+  const rvrsGeocodingResponse = await fetch(`http://api.openweathermap.org/geo/1.0/reverse?lat=${location.value.lat}&lon=${location.value.long}&limit=1&appid=${VITE_OPEN_WEATHER_API_KEY}`);
+  const rvrsGeocodingData = await rvrsGeocodingResponse.json();
+
+
+  location.value.formattedAddress = `${rvrsGeocodingData[0].name}, ${rvrsGeocodingData[0].state}, ${rvrsGeocodingData[0].country}`;
   location.value.weatherDesc = formatDescription(geoData.weather[0].description);
   location.value.temp = geoData.main.temp.toFixed(0);
   location.value.high = geoData.main.temp_max.toFixed(0);
   location.value.low = geoData.main.temp_min.toFixed(0);
-  location.value.icon = `https://openweathermap.org/img/wn/${geoData.weather[0].icon}@2x.png`
-
+  location.value.icon = `https://openweathermap.org/img/wn/${geoData.weather[0].icon}@2x.png`;
 }
 
 function getDate() {
