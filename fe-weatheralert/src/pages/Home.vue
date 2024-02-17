@@ -19,6 +19,8 @@ const location = ref<weatherLocation>({
 });
 const currentTime = ref("");
 
+//const modalElement = ref(null);
+
 const showModal = ref<boolean>(false);
 
 const VITE_OPEN_WEATHER_API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY;
@@ -78,6 +80,7 @@ function formatDescription(str: string) {
 
 function flipModal() {
   showModal.value = !showModal.value;
+  console.log('modal flip', showModal.value)
 }
 
 watch(

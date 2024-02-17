@@ -15,7 +15,8 @@
 			"version": "latest",
 			"moby": false,
 			"dockerDashComposeVersion": "v1"
-		}
+		},
+		"azure-cli": "latest"
 	},
 	// Configure tool-specific properties.
 	"customizations": {

@@ -25,20 +25,21 @@
         }
 
         try {
-            const response = await fetch(baseUrl, {
-                method: "POST", 
-                mode: "cors", 
-                credentials: "same-origin", 
-                headers: {
-                "Content-Type": "application/json",
-                },
-                redirect: "follow", 
-                referrerPolicy: "no-referrer", 
-                body: JSON.stringify(payload), 
-            });
-            if (!response.ok) {
-                throw new Error("Network Response was not ok. Check the network tab for details")
-            }
+            // const response = await fetch(baseUrl, {
+            //     method: "POST", 
+            //     mode: "cors", 
+            //     credentials: "same-origin", 
+            //     headers: {
+            //     "Content-Type": "application/json",
+            //     },
+            //     redirect: "follow", 
+            //     referrerPolicy: "no-referrer", 
+            //     body: JSON.stringify(payload), 
+            // });
+            // if (!response.ok) {
+            //     throw new Error("Network Response was not ok. Check the network tab for details")
+            // }
+            console.log(payload, baseUrl)
             emit("flipModal");
 
         } catch (error) {

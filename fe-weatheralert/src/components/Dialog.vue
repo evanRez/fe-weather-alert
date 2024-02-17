@@ -1,6 +1,18 @@
 <script setup lang="ts">
+import { watch } from 'vue';
+
     const props = defineProps<{showModal: boolean}>();
     const emit = defineEmits(['flipModal'])
+
+
+    function smoothScroll() {
+        var dialog = document.getElementById("dialog");
+        dialog?.scrollIntoView({"behavior": "smooth"});
+    };
+
+    watch(
+    props.showModal.valueOf, 
+    () => {smoothScroll();})
 
     function closeDialog(): void {
         console.log('current modal value', props.showModal)
