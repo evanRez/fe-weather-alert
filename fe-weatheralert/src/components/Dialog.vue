@@ -1,29 +1,29 @@
 <script setup lang="ts">
-import { watch } from 'vue';
+//import { watch } from 'vue';
 
-    const props = defineProps<{showModal: boolean}>();
+    // const props = defineProps<{showModal: boolean}>();
     const emit = defineEmits(['flipModal'])
 
 
-    function smoothScroll() {
-        var dialog = document.getElementById("dialog");
-        dialog?.scrollIntoView({"behavior": "smooth"});
-    };
+    // function smoothScroll() {
+    //     var dialog = document.getElementById("dialog");
+    //     dialog?.scrollIntoView({"behavior": "smooth"});
+    // };
 
-    watch(
-    props.showModal.valueOf, 
-    () => {smoothScroll();})
+    // watch(
+    // props.showModal.valueOf, 
+    // () => {smoothScroll();})
 
     function closeDialog(): void {
-        console.log('current modal value', props.showModal)
+        // console.log('current modal value', props.showModal)
         console.log('lets close this thing by setting a flag to false');
         emit("flipModal")
     }
-
+//<dialog :open="showModal">
 </script>
 
 <template>
-    <dialog :open="showModal">
+    <dialog >
         <div class="container" id="dialog"> 
             <h3>Success! You've signed up for weather alerts.</h3>
             <p>When it is expected to rain, you'll receive an email around 6:00am</p>
