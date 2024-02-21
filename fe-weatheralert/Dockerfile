@@ -1,4 +1,4 @@
-FROM node:20.10.0
+FROM node:20.10.0 as build
 
 ENV VITE_OPEN_WEATHER_API_KEY=81df09742bb3445937c58d2869759c40
 
@@ -17,6 +17,14 @@ RUN rm -r node_modules
 RUN npm install
 
 
-EXPOSE 5173
 
-CMD ["npm", "run", "build"]
+
+RUN npm run build
+# CMD ["npm", "run", "build"]
+
+
+FROM nginx:stable-alpine
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
+COPY --from=build /app/dist /usr/share/nginx/html
+EXPOSE 5173
+CMD ["nginx", "-g", "daemon off;"]
