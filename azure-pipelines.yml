@@ -42,4 +42,4 @@ stages:
         azureSubscription: 'Azure subscription 1(3bd6a1bd-e5ce-4e82-b177-31b639cc690b)'
         scriptType: 'bash'
         scriptLocation: 'inlineScript'
-        inlineScript: 'az container create --resource-group rg-weatheralert-eastus-dev-001 --registry-username regWeatherAlert --registry-password A0/7Gd0mfQQrBDBx4uIvHl4/bENzGv/tmHpoPxhTpu+ACRB9V7x2 --restart-policy Never --name regweatheralert --image regweatheralert.azurecr.io/feweatheralert --ports 5173'
+        inlineScript: 'az container create --resource-group rg-weatheralert-eastus-dev-001 --registry-username regWeatherAlert --registry-password A0/7Gd0mfQQrBDBx4uIvHl4/bENzGv/tmHpoPxhTpu+ACRB9V7x2 --restart-policy Never --name regweatheralert --image regweatheralert.azurecr.io/feweatheralert:1.6 --ports 5173'
